@@ -1,0 +1,68 @@
+package com.example.notebook;
+
+
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.ListFragment;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class MainActivityListFragment extends ListFragment {
+
+    private ArrayList<Note> notes;
+    private NoteAdapter noteAdapter;
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+//        String[] values = {"hwododndnd", "jhjkjkjk", "uiouioiuioiuio", "fghjk",
+//                            "hjklkjkl", "hwododndnd", "jhjkjkjk", "uiouioiuioiuio",
+//                            "fghjk", "hwododndnd", "jhjkjkjk", "uiouioiuioiuio",
+//                            "fghjk", "hwododndnd", "jhjkjkjk", "uiouioiuioiuio"};
+//
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+//                android.R.layout.simple_list_item_1, values);
+//
+//        setListAdapter(adapter);
+
+        notes = new ArrayList<Note>();
+        for( int i =0; i < 5; i++) {
+            notes.add(new Note("Quantum Tunnelling",
+                    "well this isn't an easy one to explain", Note.Category.TECHNICAL));
+
+            notes.add(new Note("Quantum ",
+                    "There are 6 images in it, when application start, it will show image1.png.", Note.Category.FINANCE));
+
+            notes.add(new Note("Uquinola systems",
+                    "Systema systema When you click the image, it will show another image in order.", Note.Category.QUOTE));
+
+            notes.add(new Note("Tunnelling",
+                    "When you click the image, it will show another image in order.", Note.Category.PERSONAL));
+
+
+        }
+        noteAdapter = new NoteAdapter(getActivity(), notes);
+
+        setListAdapter(noteAdapter);
+
+
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+    }
+}

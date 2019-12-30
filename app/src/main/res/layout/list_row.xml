@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF9F9F9"
+    android:paddingTop="8dp"
+    android:paddingRight="8dp"
+    android:paddingBottom="8dp"
+    android:paddingLeft="8dp">
+
+    <ImageView
+        android:id="@+id/list_item_note_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/a"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"/>
+
+    <TextView
+        android:id="@+id/list_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Note Title"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@id/list_item_note_img"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:layout_marginBottom="2dp"/>
+
+    <TextView
+        android:id="@+id/list_item_body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="So this is how the text should look, wait for the update okkkkkkkkkkkkkkkkkkkkff"
+        android:layout_toEndOf="@id/list_item_note_img"
+        android:layout_below="@id/list_item_title"
+        android:layout_alignParentEnd="true"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:layout_marginBottom="2dp"/>
+
+</RelativeLayout>

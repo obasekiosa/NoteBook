@@ -1,6 +1,7 @@
 package com.example.notebook;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,16 +29,6 @@ public class MainActivityListFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-//        String[] values = {"hwododndnd", "jhjkjkjk", "uiouioiuioiuio", "fghjk",
-//                            "hjklkjkl", "hwododndnd", "jhjkjkjk", "uiouioiuioiuio",
-//                            "fghjk", "hwododndnd", "jhjkjkjk", "uiouioiuioiuio",
-//                            "fghjk", "hwododndnd", "jhjkjkjk", "uiouioiuioiuio"};
-//
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-//                android.R.layout.simple_list_item_1, values);
-//
-//        setListAdapter(adapter);
-
         notes = new ArrayList<Note>();
         for( int i =0; i < 5; i++) {
             notes.add(new Note("Quantum Tunnelling",
@@ -64,5 +55,21 @@ public class MainActivityListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
+        launchNoteDetailActivity(position);
+    }
+
+    private void launchNoteDetailActivity(int position) {
+
+        // get note information concerning note item clicked on
+        Note note = (Note) getListAdapter().getItem(position);
+
+        // create new intent and populate with information needed by new activity
+        Intent intent = new Intent(getActivity(), NoteDetailActivity.class);
+        intent.putExtra(MainActivity.NOTE_TITLE_EXTRA, note.getTitle());
+        intent.putExtra(MainActivity.NOTE_MESSAGE_EXTRA, note.getMessage());
+        intent.putExtra(MainActivity.NOTE_CATEGORY_EXTRA, note.getCategory());
+        intent.putExtra(MainActivity.NOTE_ID_EXTRA, note.getNoteId());
+
+        startActivity(intent);
     }
 }

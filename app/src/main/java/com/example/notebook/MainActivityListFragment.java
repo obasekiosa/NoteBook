@@ -37,7 +37,7 @@ public class MainActivityListFragment extends ListFragment {
             notes.add(new Note("Quantum ",
                     "There are 6 images in it, when application start, it will show image1.png.", Note.Category.FINANCE));
 
-            notes.add(new Note("Uquinola systems",
+            notes.add(new Note("Uquinola systems  bla balalaldjdjdjddjdjdjdduffffffffffffffffff",
                     "Systema systema When you click the image, it will show another image in order.", Note.Category.QUOTE));
 
             notes.add(new Note("Tunnelling",

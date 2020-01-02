@@ -27,6 +27,8 @@ public class NoteEditFragment extends Fragment {
     private AlertDialog categoryDialogObject, confirmDialogObject;
     private EditText title, body;
 
+    private static final String MODIFIED_CATEGORY = "Modified Category";
+
     public NoteEditFragment() {
         // Required empty public constructor
     }
@@ -36,6 +38,10 @@ public class NoteEditFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
+        if (savedInstanceState != null) {
+            savedButtonCategory = (Note.Category) savedInstanceState.get(MODIFIED_CATEGORY);
+        }
         // Inflate fragment edit layout
         View fragmentLayout = inflater.inflate(R.layout.fragment_note_edit, container, false);
 
@@ -50,9 +56,16 @@ public class NoteEditFragment extends Fragment {
         title.setText(intent.getExtras().getString(MainActivity.NOTE_TITLE_EXTRA));
         body.setText(intent.getExtras().getString(MainActivity.NOTE_MESSAGE_EXTRA));
 
-        Note.Category noteCat = (Note.Category) intent.getSerializableExtra(MainActivity.NOTE_CATEGORY_EXTRA);
-        savedButtonCategory = noteCat;
-        noteCatButton.setImageResource(Note.categoryToDrawable(noteCat));
+        // if a category was saved then set button image to the saved category
+        if (savedButtonCategory != null) {
+            noteCatButton.setImageResource(Note.categoryToDrawable(savedButtonCategory));
+        }
+        // otherwise get the sent category(from the intent) and set the background
+        else {
+            Note.Category noteCat = (Note.Category) intent.getSerializableExtra(MainActivity.NOTE_CATEGORY_EXTRA);
+            savedButtonCategory = noteCat;
+            noteCatButton.setImageResource(Note.categoryToDrawable(noteCat));
+        }
 
         buildCategoryDialog();
         buildConfirmDialog();
@@ -72,8 +85,14 @@ public class NoteEditFragment extends Fragment {
             }
         });
 
-        // return fragment layout
         return fragmentLayout;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle saveInstanceState) {
+        super.onSaveInstanceState(saveInstanceState);
+
+        saveInstanceState.putSerializable(MODIFIED_CATEGORY, savedButtonCategory);
     }
 
     private void buildCategoryDialog() {

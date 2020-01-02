@@ -8,7 +8,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.ListFragment;
 
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -49,6 +53,7 @@ public class MainActivityListFragment extends ListFragment {
 
         setListAdapter(noteAdapter);
 
+        registerForContextMenu(getListView());
 
     }
 
@@ -56,6 +61,29 @@ public class MainActivityListFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         launchNoteDetailActivity(position);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater menuInflater = getActivity().getMenuInflater();
+        menuInflater.inflate(R.menu.long_press_menu, menu);
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        // returns id of what ever item is selected
+        switch (item.getItemId()) {
+            // if we press edit
+            case R.id.edit_menu:
+                // do something
+                Log.w("Menu clicks", "we pressed Edit");
+                return true;
+        }
+
+        return super.onContextItemSelected(item);
     }
 
     private void launchNoteDetailActivity(int position) {

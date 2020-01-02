@@ -6,4 +6,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="viewFragmentTitle">View Note</string>
     <string name="editFragmentTitle">Edit Note</string>
+    <string name="editMenu">Edit</string>
 </resources>

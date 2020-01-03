@@ -7,4 +7,6 @@
     <string name="viewFragmentTitle">View Note</string>
     <string name="editFragmentTitle">Edit Note</string>
     <string name="editMenu">Edit</string>
+    <string name="action_add_note">Add Note</string>
+    <string name="createFragmentTitle">Create Note</string>
 </resources>

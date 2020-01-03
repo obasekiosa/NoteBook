@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 public class NoteDetailActivity extends AppCompatActivity {
 
+    public static final String NEW_NOTE_EXTRA = "com.example.notebook.NEW_NOTE_EXTRA";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +39,17 @@ public class NoteDetailActivity extends AppCompatActivity {
                 NoteEditFragment noteEditFragment = new NoteEditFragment();
                 setTitle(R.string.editFragmentTitle);
                 fragmentTransaction.add(R.id.note_container, noteEditFragment, "NOTE EDIT FRAGMENT");
+                break;
+
+            case CREATE:
+                NoteEditFragment noteCreateFragment = new NoteEditFragment();
+                setTitle(R.string.createFragmentTitle);
+
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(NEW_NOTE_EXTRA, true);
+                noteCreateFragment.setArguments(bundle);
+
+                fragmentTransaction.add(R.id.note_container, noteCreateFragment, "NOTE CREATE FRAGMENT");
                 break;
         }
 

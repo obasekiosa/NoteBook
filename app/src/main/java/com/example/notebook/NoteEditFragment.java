@@ -29,6 +29,8 @@ public class NoteEditFragment extends Fragment {
 
     private static final String MODIFIED_CATEGORY = "Modified Category";
 
+    private boolean newNote = false;
+
     public NoteEditFragment() {
         // Required empty public constructor
     }
@@ -38,6 +40,11 @@ public class NoteEditFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // grab bundle that sends along boolean for determining if new note is to be created
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            newNote = bundle.getBoolean(NoteDetailActivity.NEW_NOTE_EXTRA, false);
+        }
 
         if (savedInstanceState != null) {
             savedButtonCategory = (Note.Category) savedInstanceState.get(MODIFIED_CATEGORY);
@@ -53,15 +60,15 @@ public class NoteEditFragment extends Fragment {
 
         // populate widget with note data
         Intent intent = getActivity().getIntent();
-        title.setText(intent.getExtras().getString(MainActivity.NOTE_TITLE_EXTRA));
-        body.setText(intent.getExtras().getString(MainActivity.NOTE_MESSAGE_EXTRA));
+        title.setText(intent.getExtras().getString(MainActivity.NOTE_TITLE_EXTRA, ""));
+        body.setText(intent.getExtras().getString(MainActivity.NOTE_MESSAGE_EXTRA, ""));
 
         // if a category was saved then set button image to the saved category
         if (savedButtonCategory != null) {
             noteCatButton.setImageResource(Note.categoryToDrawable(savedButtonCategory));
         }
         // otherwise get the sent category(from the intent) and set the background
-        else {
+        else if (!newNote) {
             Note.Category noteCat = (Note.Category) intent.getSerializableExtra(MainActivity.NOTE_CATEGORY_EXTRA);
             savedButtonCategory = noteCat;
             noteCatButton.setImageResource(Note.categoryToDrawable(noteCat));

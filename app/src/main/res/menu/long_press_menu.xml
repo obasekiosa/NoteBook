@@ -7,4 +7,8 @@
         android:id="@+id/edit_menu"
         android:title="@string/editMenu"/>
 
+    <item
+        android:id="@+id/delete"
+        android:title="@string/deleteMenu"/>
+
 </menu>

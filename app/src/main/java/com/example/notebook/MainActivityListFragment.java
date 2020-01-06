@@ -34,22 +34,10 @@ public class MainActivityListFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        notes = new ArrayList<Note>();
-        for( int i =0; i < 5; i++) {
-            notes.add(new Note("Quantum Tunnelling",
-                    "well this isn't an easy one to explain", Note.Category.TECHNICAL));
-
-            notes.add(new Note("Quantum ",
-                    "There are 6 images in it, when application start, it will show image1.png.", Note.Category.FINANCE));
-
-            notes.add(new Note("Uquinola systems  bla balalaldjdjdjddjdjdjdduffffffffffffffffff",
-                    "Systema systema When you click the image, it will show another image in order.", Note.Category.QUOTE));
-
-            notes.add(new Note("Tunnelling",
-                    "When you click the image, it will show another image in order.", Note.Category.PERSONAL));
-
-
-        }
+        NoteBookDbAdapter dbAdapter = new NoteBookDbAdapter(getActivity().getBaseContext());
+        dbAdapter.open();
+        notes = dbAdapter.getAllNotes();
+        dbAdapter.close();
         noteAdapter = new NoteAdapter(getActivity(), notes);
 
         setListAdapter(noteAdapter);
@@ -80,6 +68,7 @@ public class MainActivityListFragment extends ListFragment {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int rowPosition = info.position;
 
+        Note note = (Note) getListAdapter().getItem(rowPosition);
         // returns id of what ever item is selected
         switch (item.getItemId()) {
             // if we press edit
@@ -88,6 +77,17 @@ public class MainActivityListFragment extends ListFragment {
                 launchNoteDetailActivity(MainActivity.FragmentToLaunch.EDIT, rowPosition);
                 Log.w("Menu clicks", "we pressed Edit");
                 return true;
+
+            case R.id.delete:
+                NoteBookDbAdapter dbAdapter = new NoteBookDbAdapter(getActivity().getBaseContext());
+                dbAdapter.open();
+                dbAdapter.deleteNote(note.getNoteId());
+
+                notes.clear();
+                notes.addAll(dbAdapter.getAllNotes());
+                noteAdapter.notifyDataSetChanged();
+
+                dbAdapter.close();
         }
 
         return super.onContextItemSelected(item);

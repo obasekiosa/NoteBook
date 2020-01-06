@@ -4,6 +4,7 @@ package com.example.notebook;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -30,6 +31,7 @@ public class NoteEditFragment extends Fragment {
     private static final String MODIFIED_CATEGORY = "Modified Category";
 
     private boolean newNote = false;
+    private long noteId = 0;
 
     public NoteEditFragment() {
         // Required empty public constructor
@@ -62,6 +64,7 @@ public class NoteEditFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         title.setText(intent.getExtras().getString(MainActivity.NOTE_TITLE_EXTRA, ""));
         body.setText(intent.getExtras().getString(MainActivity.NOTE_MESSAGE_EXTRA, ""));
+        noteId = intent.getExtras().getLong(MainActivity.NOTE_ID_EXTRA, 0);
 
         // if a category was saved then set button image to the saved category
         if (savedButtonCategory != null) {
@@ -150,6 +153,20 @@ public class NoteEditFragment extends Fragment {
                 Log.d("Save note", "Note title: " + title.getText() + "Note Message: "
                         + body.getText() + " Note category: " + savedButtonCategory);
 
+                NoteBookDbAdapter dbAdapter = new NoteBookDbAdapter(getActivity().getBaseContext());
+                dbAdapter.open();
+                if(newNote) {
+                    // if a new note create it in database
+                    dbAdapter.createNote(title.getText() + "", body.getText() + "",
+                            (savedButtonCategory == null) ? Note.Category.PERSONAL : savedButtonCategory);
+                }
+                else {
+                    // update database
+                    dbAdapter.updateNote(noteId, title.getText() + "", body.getText() + "", savedButtonCategory);
+
+                }
+
+                dbAdapter.close();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
